@@ -8,10 +8,12 @@ import org.slf4j.LoggerFactory;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class AlarmsRepository {
@@ -32,6 +34,21 @@ public class AlarmsRepository {
 
     public List<Alarm> getAllAlarms() {
         return alarms;
+    }
+
+    public Alarm getSingleAlarm(String id) {
+        return alarms.stream()
+                .filter(s -> Objects.equals(s.getNotificationIdentifier(), id))
+                .collect(Collectors.toList())
+                .get(0);
+    }
+
+    public void createAlarm(Alarm alarm) {
+        alarms.add(alarm);
+    }
+
+    public void deleteAlarm(String id) {
+        alarms.removeIf(s -> Objects.equals(s.getNotificationIdentifier(), id));
     }
 
     private Runnable writeSnapshot() {

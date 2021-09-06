@@ -12,10 +12,10 @@ public class AlarmsResourceTest {
     @Test
     public void testHelloEndpoint() {
         given()
-          .when().get("/alarms")
+          .when().get("/alarms/hello")
           .then()
              .statusCode(200)
-             .body(is("Hello RESTEasy"));
+             .body(is("Hello from Alarms resource!!"));
     }
 
 }
