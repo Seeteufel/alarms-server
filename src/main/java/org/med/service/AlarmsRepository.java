@@ -84,7 +84,6 @@ public class AlarmsRepository {
         String creationInterval = ConfigProvider.getConfig().getValue("alarms.creation.interval", String.class);
         String terminationInterval = ConfigProvider.getConfig().getValue("alarms.termination.interval", String.class);
         String dumpingInterval = ConfigProvider.getConfig().getValue("alarms.snapshot.interval", String.class);
-        String simulationPeriod = ConfigProvider.getConfig().getValue("simulation.lifecycle.period", String.class);
 
         scheduledExecutorService.scheduleWithFixedDelay(createAlarmPeriodically(), 60,
                 Integer.parseInt(creationInterval), TimeUnit.SECONDS);
@@ -93,8 +92,7 @@ public class AlarmsRepository {
         scheduledExecutorService.scheduleWithFixedDelay(writeSnapshot(), 10,
                 Integer.parseInt(dumpingInterval), TimeUnit.SECONDS);
 
-        Thread.sleep(Integer.parseInt(simulationPeriod) * 1000 * 60);
-        scheduledExecutorService.shutdown();
-        scheduledExecutorService.awaitTermination(5 * 1000, TimeUnit.SECONDS);
+//        scheduledExecutorService.shutdown();
+//        scheduledExecutorService.awaitTermination(60 * 1000, TimeUnit.SECONDS);
     }
 }

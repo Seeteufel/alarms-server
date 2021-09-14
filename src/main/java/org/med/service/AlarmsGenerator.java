@@ -18,7 +18,6 @@ public class AlarmsGenerator {
     private final Date referenceDate;
 
     public AlarmsGenerator() {
-
         alarms = new LinkedList<>();
         faker = new Faker(new Locale("en-GB"));
         referenceDate = new Date();
