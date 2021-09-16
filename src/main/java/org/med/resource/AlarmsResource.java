@@ -35,7 +35,7 @@ public class AlarmsResource {
         return alarms.getSingleAlarm(id);
     }
 
-    @PUT
+    @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response createAlarm(Alarm alarm) {
         alarms.createAlarm(alarm);
@@ -46,8 +46,7 @@ public class AlarmsResource {
     }
 
     @DELETE
-    @Path("/id")
-    @Produces(MediaType.TEXT_PLAIN)
+    @Path("/{id}")
     public Response removeAlarm(@PathParam("id") String id) {
         alarms.deleteAlarm(id);
         return Response

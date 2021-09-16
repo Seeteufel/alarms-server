@@ -44,6 +44,7 @@ public class AlarmsRepository {
     }
 
     public void createAlarm(Alarm alarm) {
+        logger.info("Received alarm to create: " + alarm);
         alarms.add(alarm);
     }
 
