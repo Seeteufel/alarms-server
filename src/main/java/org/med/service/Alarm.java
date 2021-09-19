@@ -8,71 +8,75 @@ import java.util.Date;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Alarm {
 
-    private String NotificationIdentifier;
-    private PerceivedSeverity Severity;
-    private Date EventTime;
-    private String ProbableCause;
-    private String AdditionalText;
+    private String notificationIdentifier;
+    private PerceivedSeverity severity;
+    private Date eventTime;
+    private String probableCause;
+    private String additionalText;
 
     public Alarm() {
     }
 
     public Alarm(String notificationIdentifier, PerceivedSeverity severity, Date eventTime, String probableCause, String additionalText) {
-        NotificationIdentifier = notificationIdentifier;
-        Severity = severity;
-        EventTime = eventTime;
-        ProbableCause = probableCause;
-        AdditionalText = additionalText;
-    }
-
-    public String getNotificationIdentifier() {
-
-        return NotificationIdentifier;
+        this.notificationIdentifier = notificationIdentifier;
+        this.severity = severity;
+        this.eventTime = eventTime;
+        this.probableCause = probableCause;
+        this.additionalText = additionalText;
     }
 
     public PerceivedSeverity getSeverity() {
-
-        return Severity;
+        return severity;
     }
 
     public void setSeverity(PerceivedSeverity severity) {
-
-        Severity = severity;
+        this.severity = severity;
     }
 
     public Date getEventTime() {
+        return eventTime;
+    }
 
-        return EventTime;
+    public void setEventTime(Date eventTime) {
+        this.eventTime = eventTime;
     }
 
     public String getProbableCause() {
-
-        return ProbableCause;
+        return probableCause;
     }
 
     public void setProbableCause(String probableCause) {
-        ProbableCause = probableCause;
+        this.probableCause = probableCause;
     }
 
     public String getAdditionalText() {
-
-        return AdditionalText;
+        return additionalText;
     }
 
     public void setAdditionalText(String additionalText) {
-
-        AdditionalText = additionalText;
+        this.additionalText = additionalText;
     }
+
+    public String getNotificationIdentifier() {
+        return notificationIdentifier;
+    }
+
+    public void setNotificationIdentifier(String notificationIdentifier) {
+        this.notificationIdentifier = notificationIdentifier;
+    }
+
+
 
     @Override
     public String toString() {
         return "Alarm{" +
-                "NotificationIdentifier='" + NotificationIdentifier + '\'' +
-                ", Severity=" + Severity +
-                ", EventTime=" + EventTime +
-                ", ProbableCause='" + ProbableCause + '\'' +
-                ", AdditionalText='" + AdditionalText + '\'' +
+                "NotificationIdentifier='" + notificationIdentifier + '\'' +
+                ", Severity=" + severity +
+                ", EventTime=" + eventTime +
+                ", ProbableCause='" + probableCause + '\'' +
+                ", AdditionalText='" + additionalText + '\'' +
                 '}';
     }
+
 }
 

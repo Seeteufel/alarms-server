@@ -37,6 +37,7 @@ public class AlarmsResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response createAlarm(Alarm alarm) {
         alarms.createAlarm(alarm);
         return Response
