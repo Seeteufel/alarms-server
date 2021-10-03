@@ -2,11 +2,13 @@ package org.med.service;
 
 import io.quarkus.runtime.StartupEvent;
 import org.eclipse.microprofile.config.ConfigProvider;
+import org.med.service.subscription.SubscriptionsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
@@ -23,6 +25,9 @@ public class AlarmsRepository {
     private List<Alarm> alarms;
     private final AlarmsGenerator generator;
     private final ScheduledExecutorService scheduledExecutorService;
+
+    @Inject
+    SubscriptionsRepository subscriptionsRepository;
 
     String initNumberOfAlarms = ConfigProvider.getConfig().getValue("initial.size.of.alarms", String.class);
 
@@ -64,6 +69,7 @@ public class AlarmsRepository {
     private Runnable createAlarmPeriodically() {
         return () -> {
             alarms = generator.createListOfAlarms(1);
+            subscriptionsRepository.sendNotification();
             logger.info("createAlarmPeriodically method called");
         };
 
