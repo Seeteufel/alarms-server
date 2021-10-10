@@ -32,7 +32,7 @@ public class AlarmsRepository {
     String initNumberOfAlarms = ConfigProvider.getConfig().getValue("initial.size.of.alarms", String.class);
 
     public AlarmsRepository() {
-        scheduledExecutorService = Executors.newScheduledThreadPool(3); // number of scheduled actions
+        scheduledExecutorService = Executors.newScheduledThreadPool(4); // number of scheduled actions
         generator = new AlarmsGenerator();
         alarms = generator.createListOfAlarms(Integer.parseInt(initNumberOfAlarms));
     }
@@ -88,9 +88,14 @@ public class AlarmsRepository {
 
     void onStart(@Observes StartupEvent ev) throws InterruptedException {
 
-        String creationInterval = ConfigProvider.getConfig().getValue("alarms.creation.interval", String.class);
-        String terminationInterval = ConfigProvider.getConfig().getValue("alarms.termination.interval", String.class);
-        String dumpingInterval = ConfigProvider.getConfig().getValue("alarms.snapshot.interval", String.class);
+        String creationInterval = ConfigProvider.getConfig().getValue(
+                "alarms.creation.interval", String.class);
+        String terminationInterval = ConfigProvider.getConfig().getValue(
+                "alarms.termination.interval", String.class);
+        String dumpingInterval = ConfigProvider.getConfig().getValue(
+                "alarms.snapshot.interval", String.class);
+        String subscriptionCleanerInterval = ConfigProvider.getConfig().getValue(
+                "subscription.cleaner.interval", String.class);
 
         scheduledExecutorService.scheduleWithFixedDelay(createAlarmPeriodically(), 60,
                 Integer.parseInt(creationInterval), TimeUnit.SECONDS);
@@ -98,6 +103,8 @@ public class AlarmsRepository {
                 Integer.parseInt(terminationInterval), TimeUnit.SECONDS);
         scheduledExecutorService.scheduleWithFixedDelay(writeSnapshot(), 10,
                 Integer.parseInt(dumpingInterval), TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(subscriptionsRepository.cleanSubscriptions(), 0,
+                Integer.parseInt(subscriptionCleanerInterval), TimeUnit.SECONDS);
 
 //        scheduledExecutorService.shutdown();
 //        scheduledExecutorService.awaitTermination(60 * 1000, TimeUnit.SECONDS);

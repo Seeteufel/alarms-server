@@ -1,10 +1,15 @@
 package org.med.service.subscription;
 
+import org.eclipse.microprofile.config.ConfigProvider;
+
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
 
 public class Subscription {
+
+    String validityPeriod = ConfigProvider.getConfig().getValue("subscription.default.period", String.class);
 
     private Date createDate;
     private Date endDate;
@@ -12,6 +17,19 @@ public class Subscription {
     private String host;
 
     public Subscription() {}
+
+    public Subscription(String host) {
+        Date creationDate = new Date();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(creationDate);
+        calendar.add(Calendar.SECOND, Integer.parseInt(validityPeriod));
+
+        this.createDate = creationDate;
+        this.endDate = calendar.getTime();
+        this.id = UUID.randomUUID();
+        this.host = host;
+    }
 
     public Subscription(Date createDate, Date endDate, UUID id, String host) {
         this.createDate = createDate;

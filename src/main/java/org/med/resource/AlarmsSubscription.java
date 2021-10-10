@@ -26,6 +26,16 @@ public class AlarmsSubscription {
                 .build();
     }
 
+    @POST
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response subscribe(String host) {
+        subscriptionsRepository.create(new Subscription(host));
+        return Response
+                .status(Response.Status.CREATED)
+                .build();
+    }
+
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Subscription> getAllSubscriptions() {

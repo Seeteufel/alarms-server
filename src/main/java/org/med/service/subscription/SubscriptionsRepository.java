@@ -7,10 +7,7 @@ import javax.enterprise.context.ApplicationScoped;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @ApplicationScoped
 public class SubscriptionsRepository {
@@ -39,6 +36,17 @@ public class SubscriptionsRepository {
                 .anyMatch(s -> Objects.equals(s.getId(), id));
     }
 
+    public Runnable cleanSubscriptions() {
+        return () -> {
+            Date currentDate = new Date();
+            for (Subscription s: subscriptions) {
+                if (currentDate.after(s.getEndDate())) {
+                    delete(s.getId());
+                }
+            }
+        };
+    }
+
     public void sendNotification() {
         for (Subscription s : subscriptions) {
             try {
@@ -54,7 +62,23 @@ public class SubscriptionsRepository {
 
                 try (DataOutputStream dos = new DataOutputStream(conn.getOutputStream())) {
                     dos.writeBytes(payload);
+                    logger.info(String.valueOf(conn.getResponseCode()));
+                    logger.info(conn.getResponseMessage());
                 }
+                catch (Exception e) {
+                    logger.info(String.valueOf((e)));
+                }
+//                try (BufferedReader br = new BufferedReader(new InputStreamReader(
+//                        conn.getInputStream())))
+//                {
+//                    String line;
+//                    while ((line = br.readLine()) != null) {
+//                        logger.info(line);
+//                    }
+//                }
+//                catch (Exception e) {
+//                    logger.info(e.toString());
+//                }
             } catch (Exception e) {
                 logger.info(e.toString());
             }
